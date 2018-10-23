@@ -3,6 +3,10 @@
 
 namespace MHKLibrary
 {
+	WSADATA cNetwork::_wsaData;
+	unsigned long cNetwork::_nonBlocking = TRUE;
+	INT cNetwork::_nInstanceCount = 0;
+
 	// 네트워크 정보를 PF_INET, SOCK_STREAM, IPPROTO_TCP 로 설정합니다.
 	cNetwork::cNetwork(void)
 		: cNetwork(PF_INET, SOCK_STREAM, IPPROTO_TCP)
@@ -53,6 +57,14 @@ namespace MHKLibrary
 		cNetwork::_nInstanceCount--;
 		if (cNetwork::_nInstanceCount <= 0) return;
 		WSACleanup();
+	}
+
+	// _pConnectExit를 호출하고 소켓을 닫습니다.
+	inline void cNetwork::_CloseConnectExit(SOCKET socket)
+	{
+		if (_pConnectExit) _pConnectExit(this, *_it);
+		shutdown(*_it, SD_BOTH);
+		closesocket(*_it);
 	}
 
 	// 등록된 Accept 전용소켓을 shutdown 하고 close 합니다.
@@ -147,7 +159,7 @@ namespace MHKLibrary
 	void cNetwork::AllSend(LPCSTR szText, INT flags)
 	{
 		///EnterCriticalSection(&_cs);
-		_nLength = strlen(szText);
+		_nLength = strlen(szText) + 1;
 		for (_it = _setConnectSockets.begin(); _it != _setConnectSockets.end(); _it++)
 		{
 			_nSize = send(*_it, szText, _nLength, flags);
@@ -162,9 +174,7 @@ namespace MHKLibrary
 				}
 			}
 
-			if (_pConnectExit) _pConnectExit(*_it);
-			shutdown(*_it, SD_BOTH);
-			closesocket(*_it);
+			_CloseConnectExit(*_it);
 			_it = _setConnectSockets.erase(_it);
 		}
 		///LeaveCriticalSection(&_cs);
@@ -178,9 +188,7 @@ namespace MHKLibrary
 		///EnterCriticalSection(&_cs);
 		for (_it = _setConnectSockets.begin(); _it != _setConnectSockets.end(); _it++)
 		{
-			if (_pConnectExit) _pConnectExit(*_it);
-			shutdown(*_it, SD_BOTH);
-			closesocket(*_it);
+			_CloseConnectExit(*_it);
 		}
 		_setConnectSockets.clear();
 		///LeaveCriticalSection(&_cs);
@@ -196,9 +204,7 @@ namespace MHKLibrary
 		if (_setConnectSockets.erase(socket))
 		{
 			///LeaveCriticalSection(&_cs);
-			if (_pConnectExit) _pConnectExit(socket);
-			shutdown(socket, SD_BOTH);
-			closesocket(socket);
+			_CloseConnectExit(socket);
 			return true;
 		}
 		///LeaveCriticalSection(&_cs);
@@ -219,9 +225,15 @@ namespace MHKLibrary
 		///EnterCriticalSection(&_cs);
 		if (INVALID_SOCKET != _acceptSocket)
 		{
-			_socket = accept(_acceptSocket, (PSOCKADDR)&_address, &_nSize);
+			_nLength = sizeof(sockaddr);
+			_socket = accept(_acceptSocket, (PSOCKADDR)&_address, &_nLength);
+			if (INVALID_SOCKET == _socket)
+			{
+				///LeaveCriticalSection(&_cs);
+				return;
+			}
 			_setConnectSockets.insert(_socket);
-			if (_pConnectEnter) _pConnectEnter(_socket);
+			if (_pConnectEnter) _pConnectEnter(this, _socket);
 		}
 		///LeaveCriticalSection(&_cs);
 	}
@@ -239,6 +251,7 @@ namespace MHKLibrary
 				if (SOCKET_ERROR != _nSize)
 				{
 					_queueRecvMessages.push(Message(*_it, _szBuffer));
+
 					continue;
 				}
 
@@ -250,10 +263,9 @@ namespace MHKLibrary
 				}
 			}
 
-			if (_pConnectExit) _pConnectExit(*_it);
-			shutdown(*_it, SD_BOTH);
-			closesocket(*_it);
+			_CloseConnectExit(*_it);
 			_it = _setConnectSockets.erase(_it);
+			if (_it == _setConnectSockets.end()) break;
 		}
 		///LeaveCriticalSection(&_cs);
 	}
@@ -305,11 +317,10 @@ namespace MHKLibrary
 	}
 
 	// 받은 메시지중에 가장최근에 받은 메시지를 꺼내옵니다.
-	Message & cNetwork::GetRecvMessage(void)
+	void cNetwork::GetRecvMessage(Message* pMessage)
 	{
-		Message & msg = _queueRecvMessages.front();
+		(*pMessage) = _queueRecvMessages.front();
 		_queueRecvMessages.pop();
-		return msg;
 	}
 
 	// 직접 연결된 소켓을 추가합니다.

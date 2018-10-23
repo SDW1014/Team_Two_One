@@ -12,11 +12,8 @@ namespace MHKLibrary
 #define WSA_VERSION		MAKEWORD(2, 2)
 #define BUFFER_SIZE		512
 
-	typedef void(*DelegateFunctionSocket)(SOCKET sock);
-
-	WSADATA cNetwork::_wsaData;
-	unsigned long cNetwork::_nonBlocking = TRUE;
-	INT cNetwork::_nInstanceCount = 0;
+	class cNetwork;
+	typedef void(*DelegateFunctionSocket)(cNetwork* pNetwork, SOCKET sock);
 
 	//누가 무슨 내용을 보냈는지 저장한다.
 	struct Message
@@ -50,6 +47,8 @@ namespace MHKLibrary
 		inline INT _CreateInstance(void);									// 해당 클래스 생성 체크
 		inline void _ReleaseInstance(void);									// 해당 클래스 소멸 체크
 
+		inline void _CloseConnectExit(SOCKET socket);						// _pConnectExit를 호출하고 소켓을 닫습니다.
+
 	public:
 
 		void AcceptClose(void);
@@ -57,6 +56,7 @@ namespace MHKLibrary
 		bool AcceptSocket(LPCSTR addressString, INT port);
 		bool AcceptSocket(SOCKET socket, PSOCKADDR pSocketAddress);
 
+		// TODO : send를 직접보내면 안될고 버퍼에 저장하도록 수정해야 함
 		void AllSend(LPCSTR szText);
 		void AllSend(LPCSTR szText, INT flags);
 
@@ -70,7 +70,9 @@ namespace MHKLibrary
 		bool GetAddressInfo(OUT PSOCKADDR pSocketAddress);
 		bool GetAddressString(OUT LPSTR pDest, INT destsize);
 
-		Message& GetRecvMessage(void);
+		int GetConnectSocketCount(void) { return _setConnectSockets.size(); }
+
+		void GetRecvMessage(Message* pMessage);
 
 		bool InsertConnectSocket(LPCSTR addressString, INT port);
 		bool InsertConnectSocket(SOCKET socket, PSOCKADDR pSocketAddress);
@@ -80,6 +82,8 @@ namespace MHKLibrary
 		bool SetAdderss(OUT PSOCKADDR pSocketAddress, LPCSTR szAddress, INT nPort);
 		bool SetAdderssPort(OUT PSOCKADDR pSocketAddress, INT nPort);
 
+		void SetDelegateConnectEnter(DelegateFunctionSocket funtion) { _pConnectEnter = funtion; }
+		void SetDelegateConnectExit(DelegateFunctionSocket funtion) { _pConnectExit = funtion; }
 
 		cNetwork(void);
 		cNetwork(INT family, INT socktype, INT protocol);
