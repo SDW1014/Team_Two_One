@@ -16,12 +16,21 @@
     <Filter Include="클래스 파일">
       <UniqueIdentifier>{b45d6c17-0969-49f1-9a36-e088227be287}</UniqueIdentifier>
     </Filter>
+    <Filter Include="클래스 파일\Network">
+      <UniqueIdentifier>{8722637c-4b37-417b-9aa9-60cb7065e89b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="클래스 파일\Packet">
+      <UniqueIdentifier>{6749c19a-59b7-4b1f-b672-0962b24b131b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="cNetwork.h">
+      <Filter>클래스 파일\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="cPacket.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -33,6 +42,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="cNetwork.cpp">
+      <Filter>클래스 파일\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="cPacket.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

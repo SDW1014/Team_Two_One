@@ -23,6 +23,7 @@ namespace MHKLibrary
 		, _pConnectEnter(nullptr)
 		, _pConnectExit(nullptr)
 		, _recvFlags(0)
+		, _sendFlags(0)
 	{
 		if (_CreateInstance())
 		{
@@ -59,12 +60,31 @@ namespace MHKLibrary
 		WSACleanup();
 	}
 
+	inline const std::set<SOCKET>::iterator & cNetwork::_send(std::set<SOCKET>::iterator & it, PCSTR sztext, INT textSize)
+	{
+		_socket = *it;
+		_nLength = send(_socket, sztext, textSize, _sendFlags);
+		if (_nLength)
+		{
+			if (SOCKET_ERROR != _nLength) return it;
+
+			switch (GetLastError())
+			{
+			default:
+				break;
+			}
+		}
+		it = _setConnectSockets.erase(it);
+		_CloseConnectExit(_socket);
+		return it;
+	}
+
 	// _pConnectExit를 호출하고 소켓을 닫습니다.
 	inline void cNetwork::_CloseConnectExit(SOCKET socket)
 	{
-		if (_pConnectExit) _pConnectExit(this, *_it);
-		shutdown(*_it, SD_BOTH);
-		closesocket(*_it);
+		if (_pConnectExit) _pConnectExit(this, socket);
+		shutdown(socket, SD_BOTH);
+		closesocket(socket);
 	}
 
 	// 등록된 Accept 전용소켓을 shutdown 하고 close 합니다.
@@ -89,7 +109,6 @@ namespace MHKLibrary
 	// maybe-later : acceptSocket 이 close 될때 acceptSocket로 연결된 ConnectSocket 이 자동으로 close 되는지 확인안했습니다.
 	bool cNetwork::AcceptSocket(INT port)
 	{
-
 		SOCKET sock = socket(_family, _socketType, _protocol);
 		if (INVALID_SOCKET == sock) return false;
 
@@ -151,32 +170,15 @@ namespace MHKLibrary
 	//연결된 소켓모두에게 send 메시지를 보낸다.
 	void cNetwork::AllSend(LPCSTR szText)
 	{
-		AllSend(szText, _recvFlags);
+		Send(INVALID_SOCKET, szText);
 	}
 
 	//연결된 소켓모두에게 send 메시지를 보낸다.
 	// maybe-later : 쓰레드를 사용하려면 크리티컬 섹션을 만들어야합니다.
-	void cNetwork::AllSend(LPCSTR szText, INT flags)
+	void cNetwork::Send(SOCKET socket, LPCSTR szText)
 	{
 		///EnterCriticalSection(&_cs);
-		_nLength = strlen(szText) + 1;
-		for (_it = _setConnectSockets.begin(); _it != _setConnectSockets.end(); _it++)
-		{
-			_nSize = send(*_it, szText, _nLength, flags);
-			if (_nSize)
-			{
-				if (SOCKET_ERROR != _nSize) continue;
-
-				switch (GetLastError())
-				{
-				default:
-					break;
-				}
-			}
-
-			_CloseConnectExit(*_it);
-			_it = _setConnectSockets.erase(_it);
-		}
+		_queueSendMessages.push(Message(socket, szText));
 		///LeaveCriticalSection(&_cs);
 	}
 
@@ -216,6 +218,7 @@ namespace MHKLibrary
 	{
 		ConfurmAccept();
 		ConfirmRecv();
+		ConfirmSend();
 	}
 
 	// 요청이 있는지 확인하고 있으면 연결합니다.
@@ -245,12 +248,13 @@ namespace MHKLibrary
 		///EnterCriticalSection(&_cs);
 		for (_it = _setConnectSockets.begin(); _it != _setConnectSockets.end(); _it++)
 		{
-			_nSize = recv(*_it, _szBuffer, BUFFER_SIZE, _recvFlags);
-			if (_nSize)
+			_socket = *_it;
+			_nLength = recv(_socket, _szBuffer, BUFFER_SIZE, _recvFlags);
+			if (_nLength)
 			{
-				if (SOCKET_ERROR != _nSize)
+				if (SOCKET_ERROR != _nLength)
 				{
-					_queueRecvMessages.push(Message(*_it, _szBuffer));
+					_queueRecvMessages.push(Message(_socket, _szBuffer));
 
 					continue;
 				}
@@ -263,11 +267,38 @@ namespace MHKLibrary
 				}
 			}
 
-			_CloseConnectExit(*_it);
 			_it = _setConnectSockets.erase(_it);
+			_CloseConnectExit(_socket);
 			if (_it == _setConnectSockets.end()) break;
 		}
 		///LeaveCriticalSection(&_cs);
+	}
+
+	// queue에 있는 SendMessages를 소켓에 보낸다.
+	// INVALID_SOCKET 은 모두에게 보낸다.
+	void cNetwork::ConfirmSend(void)
+	{
+		while (IsSendMessage())
+		{
+			///EnterCriticalSection(&_cs);
+			if (INVALID_SOCKET == _queueSendMessages.front().nSocket)
+			{
+				_nSize = _queueSendMessages.front().sText.size() + 1;
+				for (_it = _setConnectSockets.begin(); _it != _setConnectSockets.end(); _it++)
+				{
+					_it = _send(_it, _queueSendMessages.front().sText.c_str(), _nSize);
+					if (_it == _setConnectSockets.end()) break;
+				}
+			}
+			else
+			{
+				_it = _setConnectSockets.find(_queueSendMessages.front().nSocket);
+				if (_it == _setConnectSockets.end()) continue;
+				_send(_it, _queueSendMessages.front().sText.c_str(), _nSize);
+			}
+			_queueSendMessages.pop();
+			///LeaveCriticalSection(&_cs);
+		}
 	}
 
 	// 호스트이름으로 주소정보를 가져옵니다.
@@ -363,6 +394,14 @@ namespace MHKLibrary
 		return false;
 	}
 
+	bool cNetwork::IsSendMessage(void)
+	{
+		///EnterCriticalSection(&_cs);
+		if (!_queueSendMessages.empty()) return true;
+		///LeaveCriticalSection(&_cs);
+		return false;
+	}
+
 	// 초기화하고 주소정보를 설정합니다.
 	// todo : PF_INET 만 지원합니다.
 	// maybe-later : PF_INET6 정상적으로 작동하는지 확인하지 못했습니다.
@@ -421,5 +460,23 @@ namespace MHKLibrary
 		}
 
 		return false;
+	}
+
+	// Accept 소켓을 통해 연결된 소켓을 등록하고 Delegate를 호출합니다.
+	// maybe-later : 쓰레드를 사용하려면 크리티컬 섹션을 만들어야합니다.
+	void cNetwork::SetDelegateConnectEnter(DelegateFunctionSocket funtion)
+	{
+		///EnterCriticalSection(&_cs);
+		_pConnectEnter = funtion;
+		///LeaveCriticalSection(&_cs);
+	}
+
+	// 통신중에 에러 발생시 소켓을 제거하고 Delegate를 호출합니다.
+	// maybe-later : 쓰레드를 사용하려면 크리티컬 섹션을 만들어야합니다.
+	void cNetwork::SetDelegateConnectExit(DelegateFunctionSocket funtion)
+	{
+		///EnterCriticalSection(&_cs);
+		_pConnectExit = funtion;
+		///LeaveCriticalSection(&_cs);
 	}
 }
