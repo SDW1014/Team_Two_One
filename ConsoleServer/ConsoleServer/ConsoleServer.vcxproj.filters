@@ -30,7 +30,7 @@
     <ClInclude Include="cNetwork.h">
       <Filter>클래스 파일\Network</Filter>
     </ClInclude>
-    <ClInclude Include="cPacket.h">
+    <ClInclude Include="cDataBuffer.h">
       <Filter>클래스 파일\Packet</Filter>
     </ClInclude>
   </ItemGroup>
@@ -44,7 +44,7 @@
     <ClCompile Include="cNetwork.cpp">
       <Filter>클래스 파일\Network</Filter>
     </ClCompile>
-    <ClCompile Include="cPacket.cpp">
+    <ClCompile Include="cDataBuffer.cpp">
       <Filter>클래스 파일\Packet</Filter>
     </ClCompile>
   </ItemGroup>

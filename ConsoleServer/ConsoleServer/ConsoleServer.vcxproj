@@ -152,13 +152,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="cNetwork.h" />
-    <ClInclude Include="cPacket.h" />
+    <ClInclude Include="cDataBuffer.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cNetwork.cpp" />
     <ClCompile Include="ConsoleServer.cpp" />
-    <ClCompile Include="cPacket.cpp" />
+    <ClCompile Include="cDataBuffer.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
