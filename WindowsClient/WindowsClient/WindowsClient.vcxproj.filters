@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="클래스 파일">
+      <UniqueIdentifier>{9f3943ca-f18c-433b-a2f7-183a8e7c0c8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="클래스 파일\GameNode">
+      <UniqueIdentifier>{f0aae1d0-a186-42c7-a3b0-8316590f84f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="클래스 파일\Singleton">
+      <UniqueIdentifier>{d6a6c56c-8471-49df-9313-dea5929e61e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="클래스 파일\GameNode\Scene">
+      <UniqueIdentifier>{e7989ec2-7adb-45e5-84d2-4300b03ecaed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="클래스 파일\Singleton\SceneManagent">
+      <UniqueIdentifier>{4ee12f14-9734-43dc-b8ef-9a7437030137}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="클래스 파일\Image">
+      <UniqueIdentifier>{a5b99741-c2cb-4796-9d16-c45a1fb9f530}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="클래스 파일\GameNode\Scene\TestScene">
+      <UniqueIdentifier>{b62bc99e-b8fe-4d32-8177-196e8d619fae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="클래스 파일\Singleton\AnimationManagent">
+      <UniqueIdentifier>{04b9a381-1c76-4727-96c2-8df92710ac31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="클래스 파일\Singleton\TimeManagent">
+      <UniqueIdentifier>{65dd4489-49f5-4493-b9c9-3c33983e6157}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="클래스 파일\GameNode\UI">
+      <UniqueIdentifier>{a145b4c1-e109-4b8e-957a-2ca9e82ff0bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="클래스 파일\Animation">
+      <UniqueIdentifier>{c8b59e0d-b2fa-4eff-adf2-586d64b70923}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="클래스 파일\GameNode\UI\InputField">
+      <UniqueIdentifier>{03c07718-0ee4-4c6d-a986-848df9fb6deb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowsClient.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManagent.h">
+      <Filter>클래스 파일\Singleton\SceneManagent</Filter>
+    </ClInclude>
+    <ClInclude Include="GameNode.h">
+      <Filter>클래스 파일\GameNode</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>클래스 파일\Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScene.h">
+      <Filter>클래스 파일\GameNode\Scene\TestScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>클래스 파일\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationManagent.h">
+      <Filter>클래스 파일\Singleton\AnimationManagent</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>클래스 파일\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManagent.h">
+      <Filter>클래스 파일\Singleton\TimeManagent</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>클래스 파일\GameNode\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="InputField.h">
+      <Filter>클래스 파일\GameNode\UI\InputField</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowsClient.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManagent.cpp">
+      <Filter>클래스 파일\Singleton\SceneManagent</Filter>
+    </ClCompile>
+    <ClCompile Include="TestScene.cpp">
+      <Filter>클래스 파일\GameNode\Scene\TestScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>클래스 파일\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationManagent.cpp">
+      <Filter>클래스 파일\Singleton\AnimationManagent</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>클래스 파일\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManagent.cpp">
+      <Filter>클래스 파일\Singleton\TimeManagent</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>클래스 파일\GameNode\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="InputField.cpp">
+      <Filter>클래스 파일\GameNode\UI\InputField</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="WindowsClient.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="WindowsClient.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
