@@ -25,7 +25,7 @@ namespace MHKLibrary
 		for (size_t frame, i = 0; i < count; i++)
 		{
 			frame = va_arg(ap, int);
-			if (SUCCEEDED(AddImage(count, centerX, centerY, pImage, frameSizeX * (frame % frameX), frameSizeY * (frame / frameX), frameSizeX, frameSizeY))) continue;
+			if (SUCCEEDED(AddImage(i, centerX, centerY, pImage, frameSizeX * (frame % frameX), frameSizeY * (frame / frameX), frameSizeX, frameSizeY))) continue;
 			va_end(ap);
 			return E_FAIL;
 		}
@@ -183,13 +183,13 @@ namespace MHKLibrary
 
 	void Animation::SetCount(int count) { _nCount = count; }
 
-	void Animation::SetCount(float progress)
+	void Animation::AnimationLerp(float travelTime)
 	{
-		_nCount = ((1.0f > progress) ? int(_nMax * progress) : (_nMax));
+		_nCount = ((1.0f > travelTime) ? int(_nMax * travelTime) : _nMax);
 	}
 
-	void Animation::SetCountReverse(float progress)
+	void Animation::AnimationLerpReverse(float travelTime)
 	{
-		_nCount = ((1.0f > progress) ? _nMax - int(_nMax * progress) : 0);
+		_nCount = ((1.0f > travelTime) ? _nMax - int(_nMax * travelTime) : 0);
 	}
 }

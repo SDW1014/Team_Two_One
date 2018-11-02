@@ -28,9 +28,6 @@
     <Filter Include="클래스 파일\Singleton\SceneManagent">
       <UniqueIdentifier>{4ee12f14-9734-43dc-b8ef-9a7437030137}</UniqueIdentifier>
     </Filter>
-    <Filter Include="클래스 파일\Image">
-      <UniqueIdentifier>{a5b99741-c2cb-4796-9d16-c45a1fb9f530}</UniqueIdentifier>
-    </Filter>
     <Filter Include="클래스 파일\GameNode\Scene\TestScene">
       <UniqueIdentifier>{b62bc99e-b8fe-4d32-8177-196e8d619fae}</UniqueIdentifier>
     </Filter>
@@ -48,6 +45,15 @@
     </Filter>
     <Filter Include="클래스 파일\GameNode\UI\InputField">
       <UniqueIdentifier>{03c07718-0ee4-4c6d-a986-848df9fb6deb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="클래스 파일\Singleton\KeyManagent">
+      <UniqueIdentifier>{73ae193f-3a98-4ebf-a088-f2b88d853830}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="클래스 파일\Image">
+      <UniqueIdentifier>{a5b99741-c2cb-4796-9d16-c45a1fb9f530}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="클래스 파일\Action">
+      <UniqueIdentifier>{a2ba98c5-7fdb-4daf-b59c-ff46c214470a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +99,12 @@
     <ClInclude Include="InputField.h">
       <Filter>클래스 파일\GameNode\UI\InputField</Filter>
     </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>클래스 파일\GameNode\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Action.h">
+      <Filter>클래스 파일\Action</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -124,6 +136,9 @@
     </ClCompile>
     <ClCompile Include="InputField.cpp">
       <Filter>클래스 파일\GameNode\UI\InputField</Filter>
+    </ClCompile>
+    <ClCompile Include="Action.cpp">
+      <Filter>클래스 파일\Action</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

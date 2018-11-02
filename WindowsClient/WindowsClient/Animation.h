@@ -44,8 +44,8 @@ namespace MHKLibrary
 		HRESULT AddImage(int count, int centerX, int centerY, Image* pImage, int x, int y, int width, int heigth);
 
 		void SetCount(int count);
-		void SetCount(float progress);
-		void SetCountReverse(float progress);
+		void AnimationLerp(float travelTime);
+		void AnimationLerpReverse(float travelTime);
 
 		Animation(void);
 		~Animation(void);

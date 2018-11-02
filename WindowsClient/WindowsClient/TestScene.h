@@ -4,11 +4,15 @@
 namespace MHKLibrary
 {
 	class Image;
+	class Action;
+	class Animation;
 	class TestScene : public Scene
 	{
 	private:
-		Image* _pImg;
-		TCHAR _szText[128];
+		Image*			_pImg;
+		Action*			_pAction;
+		Animation*		_pAnimation;
+		TCHAR			_szText[128];
 	public:
 		virtual HRESULT Init(void);
 		virtual void Release(void);

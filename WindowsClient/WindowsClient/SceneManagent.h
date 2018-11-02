@@ -12,16 +12,16 @@ namespace MHKLibrary
 		SCENE_TEST,
 	};
 
-	class GameNode;
+	class Scene;
 	class Image;
 
 	class SceneManagent : public Singleton<SceneManagent>
 	{
 	private:
-		typedef std::map<SCENE_ID, GameNode*> mapSceneList;
-		typedef std::map<SCENE_ID, GameNode*>::iterator mapSceneIterator;
+		typedef std::map<SCENE_ID, Scene*> mapSceneList;
+		typedef std::map<SCENE_ID, Scene*>::iterator mapSceneIterator;
 
-		static GameNode *_pReadyScene, *_pCurrentScene, *_pLoadingScene;
+		static Scene *_pReadyScene, *_pCurrentScene, *_pLoadingScene;
 
 		mapSceneList	_mScenes;
 		DWORD			_dwLoadThreadID;
@@ -34,7 +34,7 @@ namespace MHKLibrary
 		void Update(void);
 		void Render(void);
 
-		GameNode* RegistScene(SCENE_ID sceneID, GameNode* pScene);
+		Scene* RegistScene(SCENE_ID sceneID, Scene* pScene);
 		HRESULT ChangeScene(SCENE_ID sceneID);
 
 		friend DWORD CALLBACK LoadingThread(LPVOID prc);

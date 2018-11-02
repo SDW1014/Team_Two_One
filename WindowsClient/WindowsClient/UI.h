@@ -14,8 +14,8 @@ namespace MHKLibrary
 		virtual void Update(void) = 0;
 		virtual void Render(void) = 0;
 
-		bool IsCollision(POINT pt);
-		bool IsCollision(RECT rc);
+		bool IsCollision(LPPOINT lppt);
+		bool IsCollision(LPRECT lprc);
 		void SetCollision(int left, int top, int right, int bottom);
 
 		UI(void);

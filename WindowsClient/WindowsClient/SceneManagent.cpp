@@ -7,9 +7,9 @@
 
 namespace MHKLibrary
 {
-	GameNode* SceneManagent::_pReadyScene = nullptr;
-	GameNode* SceneManagent::_pCurrentScene = nullptr;
-	GameNode* SceneManagent::_pLoadingScene = nullptr;
+	Scene* SceneManagent::_pReadyScene = nullptr;
+	Scene* SceneManagent::_pCurrentScene = nullptr;
+	Scene* SceneManagent::_pLoadingScene = nullptr;
 
 	SceneManagent::SceneManagent(void)
 		:	_dwLoadThreadID(THREAD_SCENE)
@@ -44,7 +44,7 @@ namespace MHKLibrary
 		if (!_hdc)
 		{
 			_hdc = GetDC(_hWnd);
-			if (!_imgBackground) return E_FAIL;
+			if (!_hdc) return E_FAIL;
 		}
 
 		RECT rc;
@@ -104,7 +104,7 @@ namespace MHKLibrary
 	}
 
 
-	GameNode* SceneManagent::RegistScene(SCENE_ID sceneID, GameNode * pScene)
+	Scene* SceneManagent::RegistScene(SCENE_ID sceneID, Scene * pScene)
 	{
 		if (!pScene) return nullptr;
 		mapSceneIterator it = _mScenes.find(sceneID);
