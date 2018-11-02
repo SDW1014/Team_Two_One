@@ -5,6 +5,8 @@ namespace MHKLibrary
 {
 	class InputField : public UI
 	{
+	private:
+
 	public:
 		virtual HRESULT Init(void) = 0;
 		virtual void Release(void) = 0;

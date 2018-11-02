@@ -98,7 +98,7 @@ namespace MHKLibrary
 	{
 		if (!_imgBackground) return;
 
-		_imgBackground->ColorNess(RGB(0, 0, 255));
+		_imgBackground->ColorNess(RGB(0, 0, 0));
 		if (_pCurrentScene) _pCurrentScene->Render();
 		_imgBackground->Render(_hdc);
 	}

@@ -153,6 +153,7 @@
     <ClInclude Include="GameNode.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="InputField.h" />
+    <ClInclude Include="KeyManagent.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="Singleton.h" />
@@ -170,6 +171,7 @@
     <ClCompile Include="AnimationManagent.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="InputField.cpp" />
+    <ClCompile Include="KeyManagent.cpp" />
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="SceneManagent.cpp" />
     <ClCompile Include="stdafx.cpp">

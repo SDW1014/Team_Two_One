@@ -9,10 +9,14 @@ namespace MHKLibrary
 	class TestScene : public Scene
 	{
 	private:
+		TCHAR			_szText1[128];
+		TCHAR			_szText2[128];
 		Image*			_pImg;
 		Action*			_pAction;
 		Animation*		_pAnimation;
-		TCHAR			_szText[128];
+		int _keyDownCount, _keyUpCount;
+		bool _isStayKey, _isToggleKey;
+
 	public:
 		virtual HRESULT Init(void);
 		virtual void Release(void);

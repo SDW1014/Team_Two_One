@@ -105,6 +105,9 @@
     <ClInclude Include="Action.h">
       <Filter>클래스 파일\Action</Filter>
     </ClInclude>
+    <ClInclude Include="KeyManagent.h">
+      <Filter>클래스 파일\Singleton\KeyManagent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -139,6 +142,9 @@
     </ClCompile>
     <ClCompile Include="Action.cpp">
       <Filter>클래스 파일\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyManagent.cpp">
+      <Filter>클래스 파일\Singleton\KeyManagent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

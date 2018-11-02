@@ -30,9 +30,7 @@ namespace MHKLibrary
 
 		return S_OK;
 	}
-	void TimeManagent::Release(void)
-	{
-	}
+
 	void TimeManagent::Update(void)
 	{
 		if (_isHardware) QueryPerformanceCounter((LARGE_INTEGER*)&_curTime);

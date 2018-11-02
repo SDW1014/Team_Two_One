@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "TimeManagent.h"
 #include "TestScene.h"
 
 #include "Image.h"
@@ -8,6 +7,24 @@
 
 namespace MHKLibrary
 {
+
+	TestScene::TestScene(void)
+		: _szText1("")
+		, _pImg(nullptr)
+		, _pAction(nullptr)
+		, _pAnimation(nullptr)
+		, _keyDownCount(0)
+		, _keyUpCount(0)
+		, _isStayKey(false)
+		, _isToggleKey(false)
+	{
+	}
+
+	TestScene::~TestScene(void)
+	{
+	}
+
+
 	HRESULT TestScene::Init(void)
 	{
 		_pImg = new Image;
@@ -42,7 +59,16 @@ namespace MHKLibrary
 			}
 
 		}
-		wsprintf(_szText, "WorldTime : %d sec", TIME_MANAGENT->GetWorldTime());
+		wsprintf(_szText1, "WorldTime : %d sec", TIME_MANAGENT->GetWorldTime());
+		KEY_MANAGENT->OnceKeyCheck(VK_SPACE);
+		if (KEY_MANAGENT->IsOnceKeyDown(VK_SPACE)) _keyDownCount++;
+		if (KEY_MANAGENT->IsOnceKeyUp(VK_SPACE)) _keyUpCount++;
+		if (KEY_MANAGENT->IsStayKeyDown(VK_SPACE)) _isStayKey = true;
+		else _isStayKey = false;
+		if (KEY_MANAGENT->IsToggleKey(VK_SPACE)) _isToggleKey = true;
+		else _isToggleKey = false;
+
+		wsprintf(_szText2, "DownCount : %d, UpCount : %d, StayKey : %s, ToggleKey : %s", _keyDownCount, _keyUpCount, _isStayKey ? "True": "False", _isToggleKey ? "True" : "False");
 	}
 
 	void TestScene::Render(void)
@@ -50,20 +76,10 @@ namespace MHKLibrary
 		//if (_pImg) _pImg->Render(GetMemDC(), 20, 20);
 		if (_pAnimation) _pAnimation->Render(GetMemDC(), 40, 40);
 
-		SetTextColor(GetMemDC(), RGB(255, 0, 255));
-		TextOut(GetMemDC(), 0, 0, _szText, strlen(_szText));
-	}
+		SetTextColor(GetMemDC(), RGB(255, 255, 0));
+		TextOut(GetMemDC(), 0, 0, _szText1, strlen(_szText1));
 
-	TestScene::TestScene(void)
-		: _szText("")
-		, _pImg(nullptr)
-		, _pAction(nullptr)
-		, _pAnimation(nullptr)
-	{
-	}
-
-
-	TestScene::~TestScene(void)
-	{
+		SetTextColor(GetMemDC(), RGB(255, 255, 255));
+		TextOut(GetMemDC(), 20, 150, _szText2, strlen(_szText2));
 	}
 }

@@ -23,7 +23,6 @@ namespace MHKLibrary
 
 	public:
 		HRESULT Init(void);
-		void Release(void);
 		void Update(void);
 
 		void SetLockFPS(const float lockFPS) { _lockFPS = lockFPS; }
