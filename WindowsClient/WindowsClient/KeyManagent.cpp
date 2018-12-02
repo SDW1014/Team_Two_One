@@ -70,5 +70,4 @@ namespace MHKLibrary
 		if (GetKeyState(key) & 0x0001) return true;
 		return false;
 	}
-
 }

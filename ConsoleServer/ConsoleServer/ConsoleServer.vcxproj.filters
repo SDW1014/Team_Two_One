@@ -33,6 +33,12 @@
     <ClInclude Include="cDataBuffer.h">
       <Filter>클래스 파일\Packet</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkPoll.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkWSA.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -46,6 +52,12 @@
     </ClCompile>
     <ClCompile Include="cDataBuffer.cpp">
       <Filter>클래스 파일\Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkPoll.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkWSA.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

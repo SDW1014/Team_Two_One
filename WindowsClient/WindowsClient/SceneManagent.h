@@ -23,10 +23,16 @@ namespace MHKLibrary
 
 		static Scene *_pReadyScene, *_pCurrentScene, *_pLoadingScene;
 
+		//¾À
 		mapSceneList	_mScenes;
 		DWORD			_dwLoadThreadID;
+		//È­¸é
 		Image*			_imgBackground;
 		HDC				_hdc;
+
+		//Ä¿¼­
+		POINT _ptCursorPostion;
+		bool _isCursorCenting;
 
 	public:
 		HRESULT Init(void);
@@ -34,8 +40,10 @@ namespace MHKLibrary
 		void Update(void);
 		void Render(void);
 
-		Scene* RegistScene(SCENE_ID sceneID, Scene* pScene);
 		HRESULT ChangeScene(SCENE_ID sceneID);
+		Scene* RegistScene(SCENE_ID sceneID, Scene* pScene);
+
+		void SetCursorCenting(bool isCenting);
 
 		friend DWORD CALLBACK LoadingThread(LPVOID prc);
 		friend DWORD CALLBACK UnloadingThread(LPVOID prc);
